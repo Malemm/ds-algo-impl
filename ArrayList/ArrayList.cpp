@@ -1,3 +1,15 @@
+/*
+ArrayList is a data structure which expands its size dynamically as elements are added to it.
+
+When elements are added, if it is going to be full:
+    1. It creates a new dynamic array having twice the size of the old one.
+    2. Elements are copied from the old array to the new one.
+    3. The old dynamic array is released from memory.
+
+Initially it starts with a dynamic array of size 0.
+During the very first addition, it creates a dynamic array of size 2 where it puts the element.
+*/
+
 #include <iostream>
 #include <string>
 #include <limits>
@@ -40,7 +52,7 @@ int ArrayList::add(int value, int index)
             return 4; // cannot expand array further
         }
 
-        for (int i = contentLength; i >= 0; i--) // i>=0 to covers the case when index=0
+        for (int i = contentLength; i >= 0; i--) // i>=0 to cover the case when index=0
         {
             if (i == index)
             {
@@ -56,7 +68,7 @@ int ArrayList::add(int value, int index)
 
         for (int i = 0; i < index; i++)
         {
-            // copy the prceeding elements to the new array
+            // copy the preceeding elements to the new array
             *(newArray + i) = *(dynamicArray + i);
         }
 
@@ -68,7 +80,7 @@ int ArrayList::add(int value, int index)
         return 0;
     }
 
-    for (int i = contentLength; i >= 0; i--) // i>=0 to covers the case when index=0
+    for (int i = contentLength; i >= 0; i--) // i>=0 to cover the case when index=0
     {
         if (i == index)
         {

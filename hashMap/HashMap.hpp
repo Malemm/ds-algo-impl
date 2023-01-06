@@ -1,4 +1,4 @@
-#define HASH_SPACE_SIZE 1000
+#define HASH_SPACE_SIZE 10
 
 class HashMap
 {
@@ -15,5 +15,8 @@ private:
         linkedListNode *next;
     };
 
-    int hashMap[HASH_SPACE_SIZE];
+    linkedListNode* linkedListNodeArray[HASH_SPACE_SIZE] = {NULL};
+
+    int getIndex(std::string);
+    linkedListNode* createNewNode(std::string, std::string);
 };

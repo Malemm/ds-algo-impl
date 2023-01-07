@@ -51,7 +51,8 @@ int main()
     if (solutionCount == 0)
     {
         cout << endl
-             << "No solution found! Please check the input." << endl;
+             << "No solution found! Please check the input." << endl
+             << endl;
     }
 
     return 0;
@@ -74,13 +75,14 @@ void solveSudoku()
                         board[x][y] = 0;
                     }
                 }
-                return; // backtrack; no number can be filled in this spot
+                return; // backtrack; no number can be filled in this [x, y] cell
             }
         }
     }
 
-    // it would never reach here when no solution is found
+    // it would only reach here when cells are not empty for all values of [x, y]
     // the 'return' statement would hit all the way down the stack when no element can be found to complete the board
+    // it would never reach here when no solution is found
     solutionCount++;
     cout << endl
          << "Solution " << solutionCount << endl;
@@ -139,32 +141,6 @@ void printBoard()
             }
 
             cout << " " << board[i][j];
-
-            // // print opening bracket "["
-            // if (i == 0 && j == 0)
-            // {
-            //     cout << "[ ";
-            // }
-            // else if (j == 0)
-            // {
-            //     cout << "  ";
-            // }
-
-            // // print comma separated value
-            // if (j == 8)
-            // {
-            //     cout << board[i][j];
-            // }
-            // else
-            // {
-            //     cout << board[i][j] << ", ";
-            // }
-
-            // // print closing bracket "]"
-            // if (i == 8 && j == 8)
-            // {
-            //     cout << " ]";
-            // }
         }
         cout << endl;
         if (i == 2 || i == 5)

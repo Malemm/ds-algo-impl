@@ -31,7 +31,7 @@ const hardCodedSudoku =
  */
 function Cell(props) {
   return (
-    <input type="text" className="cell" id={`cell${props.x}${props.y}`} name={`cell${props.x}${props.y}`} defaultValue={props.value} readOnly={props.readOnly} style={props.fixedCell ? { backgroundColor: 'grey' } : { backgroundColor: null }} />
+    <input type="text" className="cell" id={`cell${props.x}${props.y}`} name={`cell${props.x}${props.y}`} defaultValue={props.value} readOnly={props.readOnly} style={props.fixedCell ? { backgroundColor: 'grey' } : { backgroundColor: `${props.bgColor}` }} />
   );
 }
 
@@ -65,6 +65,12 @@ class Board extends React.Component {
    * @returns 
    */
   renderCell(x, y, value, readOnly) {
+
+    let bgcolor = `rgb(240, 255, 240)` // light green
+    if (((x < 3 || x > 5) && (y < 3 || y > 5)) || (x >= 3 && x <= 5 && y >= 3 && y <= 5)) {
+      bgcolor = `rgb(240, 240, 255)` // light blue
+    }
+
     return (
       <Cell
         x={x}
@@ -72,6 +78,7 @@ class Board extends React.Component {
         value={value}
         readOnly={readOnly}
         fixedCell={inputBoardOriginal[x][y] === '' ? false : true}
+        bgColor={bgcolor}
       />
     );
   }
@@ -264,7 +271,7 @@ class Sudoku extends React.Component {
     this.setState({
       invalidBoard: false
     })
-    
+
     // below is not working
     // let emptyBoard = JSON.parse(JSON.stringify(hardCodedSudoku))
     // this.setState({

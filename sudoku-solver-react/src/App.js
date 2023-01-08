@@ -31,7 +31,7 @@ const hardCodedSudoku =
  */
 function Cell(props) {
   return (
-    <input type="text" className="square" id={`cell${props.x}${props.y}`} name={`cell${props.x}${props.y}`} defaultValue={props.value} readOnly={props.readOnly} style={props.fixedCell ? { backgroundColor: 'grey' } : { backgroundColor: null }} />
+    <input type="text" className="cell" id={`cell${props.x}${props.y}`} name={`cell${props.x}${props.y}`} defaultValue={props.value} readOnly={props.readOnly} style={props.fixedCell ? { backgroundColor: 'grey' } : { backgroundColor: null }} />
   );
 }
 
@@ -187,6 +187,8 @@ class Sudoku extends React.Component {
       displaySolution(this.solutions[i], i + 1)
     }
 
+    this.solutions = []
+
     if (this.state.invalidBoard)
       this.setState({
         invalidBoard: false
@@ -262,6 +264,7 @@ class Sudoku extends React.Component {
     this.setState({
       invalidBoard: false
     })
+    
     // below is not working
     // let emptyBoard = JSON.parse(JSON.stringify(hardCodedSudoku))
     // this.setState({
@@ -275,7 +278,8 @@ class Sudoku extends React.Component {
     //     cell.value = hardCodedSudoku[i][j]
     //   }
     // }
-    const cells = document.getElementsByClassName("square");
+
+    const cells = document.getElementsByClassName("cell");
     for (let i = 0; i < cells.length; i++) {
       cells[i].value = ''
     }

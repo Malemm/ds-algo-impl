@@ -18,7 +18,7 @@ ul {
   margin-bottom: 10px;
 }
 
-.square {
+.cell {
   background: #fff;
   border: 1px solid #999;
   float: left;

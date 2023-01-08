@@ -4,7 +4,7 @@ import './App.css';
 
 function Cell(props) {
   return (
-    <input type="text" className="square" key={`cell${props.x}${props.y}`} id={`cell${props.x}${props.y}`} name={`cell${props.x}${props.y}`} defaultValue={props.value} onChange={props.value} readOnly={props.readOnly} />
+    <input type="text" className="square" id={`cell${props.x}${props.y}`} name={`cell${props.x}${props.y}`} defaultValue={props.value} readOnly={props.readOnly} />
   );
 }
 
@@ -106,20 +106,18 @@ class Sudoku extends React.Component {
 
   resetBoard() {
     clearSolutions();
-    // let emptyBoard = JSON.parse(JSON.stringify(this.emptyBoard))
-    let emptyBoard =
-      [['9', '', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', '', '']]
     this.setState({
-      board: emptyBoard
+      invalidBoard: false
     })
+    // below is not working
+    // let emptyBoard = JSON.parse(JSON.stringify(this.emptyBoard))
+    // this.setState({
+    //   board: emptyBoard
+    // })
+    const cells = document.getElementsByClassName("square");
+    for (let i = 0; i < cells.length; i++) {
+      cells[i].value = ''
+    }
   }
 
   render() {

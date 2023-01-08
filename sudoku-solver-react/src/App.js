@@ -2,13 +2,37 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './App.css';
 
+const inputBoardOriginal =
+  [['', '', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', '', '']]
+
 function Cell(props) {
   return (
-    <input type="text" className="square" id={`cell${props.x}${props.y}`} name={`cell${props.x}${props.y}`} defaultValue={props.value} readOnly={props.readOnly} />
+    <input type="text" className="square" id={`cell${props.x}${props.y}`} name={`cell${props.x}${props.y}`} defaultValue={props.value} readOnly={props.readOnly} style={props.fixedCell ? { backgroundColor: 'grey' } : { backgroundColor: null }} />
   );
 }
 
 class Board extends React.Component {
+  onSubmit(event) {
+    // obtain input
+    event.preventDefault();
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        let name = `cell${i}${j}`
+        inputBoardOriginal[i][j] = event.target.elements[name]?.value
+      }
+    }
+    // submit a clone
+    this.props.onSubmit(JSON.parse(JSON.stringify(inputBoardOriginal)));
+  }
+
   renderCell(x, y, value, readOnly) {
     return (
       <Cell
@@ -16,6 +40,7 @@ class Board extends React.Component {
         y={y}
         value={value}
         readOnly={readOnly}
+        fixedCell={inputBoardOriginal[x][y] === '' ? false : true}
       />
     );
   }
@@ -23,8 +48,8 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-        {/* {this.props?.solutionNum > 0 && <p>Solution: {this.props.solutionCount}</p>} */}
-        <form onSubmit={this.props.onSubmit}>
+        {this.props?.solutionNum > 0 && <p>Solution: {this.props.solutionCount}</p>}
+        <form onSubmit={(event) => this.onSubmit(event)}>
           {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i, iindex) => {
 
             return (
@@ -71,20 +96,9 @@ class Sudoku extends React.Component {
     }
   }
 
-  handleSubmit(event) {
-    // get input
-    event.preventDefault()
+  handleSubmit(inputBoard) {
 
-    let inputBoard = JSON.parse(JSON.stringify(this.emptyBoard))
-
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        let name = `cell${i}${j}`
-        inputBoard[i][j] = event.target.elements[name]?.value
-      }
-    }
-
-    // if board is invalid, do not continue
+    // validate input board; do not continue if board is invalid
     if (!checkBoardConsistency(inputBoard)) {
       clearSolutions();
       this.setState({
@@ -99,9 +113,11 @@ class Sudoku extends React.Component {
     // solve sudoku
     solve(inputBoard, this.state.solutionCount);
 
-    this.setState({
-      invalidBoard: false
-    })
+    if (this.state.invalidBoard)
+      this.setState({
+        invalidBoard: false
+      })
+
   }
 
   resetBoard() {

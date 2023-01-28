@@ -1,4 +1,5 @@
 #include <iostream>
+#include <list>
 
 using namespace std;
 
@@ -17,11 +18,14 @@ private:
     struct node *insertKey(struct node *, int);
     struct node *findNextInOrder(struct node *);
     void traverseInOrder(struct node *);
+    void traverseDFS(struct node *);
 
 public:
     void insertKey(int);
     void deleteKey(int);
     void printInOrder();
+    void printBFS();
+    void printDFS();
     BinarySearchTree();
 };
 
@@ -162,9 +166,67 @@ void BinarySearchTree::printInOrder()
     cout << endl;
 }
 
+void BinarySearchTree::traverseDFS(struct node *ptr)
+{
+    if (ptr == nullptr)
+    {
+        return;
+    }
+    cout << ptr->key << "  ";
+    traverseDFS(ptr->leftChild);
+    traverseDFS(ptr->rightChild);
+}
+
+void BinarySearchTree::printDFS()
+{
+    cout << "Depth First Traversal: ";
+    traverseDFS(root);
+    cout << endl;
+}
+
+void BinarySearchTree::printBFS()
+{
+    cout << "Breadth First Traversal: ";
+
+    list<struct node *> queue;
+    queue.push_back(root);
+
+    while (!queue.empty())
+    {
+        struct node *ptr = queue.front();
+        queue.pop_front();
+        cout << ptr->key << "  ";
+
+        if (ptr->leftChild != nullptr)
+            queue.push_back(ptr->leftChild);
+
+        if (ptr->rightChild != nullptr)
+            queue.push_back(ptr->rightChild);
+    }
+
+    cout << endl;
+}
+
 main()
 {
     BinarySearchTree bst;
+
+    /*
+         50
+       /    \
+      30    70
+     / \    / \
+    20 40  60 80 */
+    bst.insertKey(50);
+    bst.insertKey(30);
+    bst.insertKey(20);
+    bst.insertKey(40);
+    bst.insertKey(70);
+    bst.insertKey(60);
+    bst.insertKey(80);
+    bst.printInOrder();
+    bst.printBFS();
+    bst.printDFS();
 
     int ops = 0;
     int key;
@@ -179,6 +241,8 @@ main()
             cin >> key;
             bst.insertKey(key);
             bst.printInOrder();
+            bst.printBFS();
+            bst.printDFS();
             break;
 
         case 2:
@@ -186,6 +250,8 @@ main()
             cin >> key;
             bst.deleteKey(key);
             bst.printInOrder();
+            bst.printBFS();
+            bst.printDFS();
             break;
 
         case 3:

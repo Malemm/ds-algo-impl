@@ -60,12 +60,12 @@ void MinHeap::minHeapify()
             if (heap[leftChild(index)] < heap[rightChild(index)])
             {
                 swap(index, leftChild(index));
-                offset = 0;
+                offset = 0; // to follow the left child in next iteration
             }
             else if (heap[index] > heap[rightChild(index)])
             {
                 swap(index, rightChild(index));
-                offset = 1;
+                offset = 1; // to follow the right child in next iteration
             }
             else
             {
